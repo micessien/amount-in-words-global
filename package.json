@@ -1,0 +1,20 @@
+{
+  "name": "amount-in-words-global",
+  "version": "1.0.0",
+  "description": "Convert amount in words",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/micessien/amount-in-words-global.git"
+  },
+  "keywords": [],
+  "author": "Micael Dié",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/micessien/amount-in-words-global/issues"
+  },
+  "homepage": "https://github.com/micessien/amount-in-words-global#readme"
+}
