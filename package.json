@@ -4,7 +4,8 @@
   "description": "Convert amount in words",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build" : "tsc"
   },
   "repository": {
     "type": "git",
@@ -16,5 +17,8 @@
   "bugs": {
     "url": "https://github.com/micessien/amount-in-words-global/issues"
   },
-  "homepage": "https://github.com/micessien/amount-in-words-global#readme"
+  "homepage": "https://github.com/micessien/amount-in-words-global#readme",
+  "devDependencies": {
+    "typescript": "^5.1.6"
+  }
 }
