@@ -20,7 +20,13 @@
     "type": "git",
     "url": "git+https://github.com/micessien/amount-in-words-global.git"
   },
-  "keywords": [],
+  "keywords": [
+    "Amount",
+    "Typescript",
+    "Javascript",
+    "number to words",
+    "amount to words"
+  ],
   "author": "Micael Dié",
   "license": "MIT",
   "bugs": {
