@@ -1,13 +1,20 @@
 {
   "name": "amount-in-words-global",
   "version": "1.0.0",
-  "description": "Convert amount in words",
-  "main": "index.js",
+  "description": "Convert amount in words with most global currency",
+  "main": "lib/index.js",
+  "types": "lib/index.d.ts",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "jest --config jest.config.json",
+    "build": "tsc",
     "dev": "tsc --watch",
     "lint": "eslint --ignore-path .eslintignore --ext .js,.ts .",
-    "build": "tsc"
+    "format": "prettier --ignore-path .gitignore --write \"**/*.+(js|ts|json)\"",
+    "prepare" : "npm run build",
+    "prepublishOnly" : "npm test && npm run lint",
+    "preversion" : "npm run lint",
+    "version" : "npm run format && git add -A src",
+    "postversion" : "git push && git push --tags"
   },
   "repository": {
     "type": "git",
@@ -21,9 +28,17 @@
   },
   "homepage": "https://github.com/micessien/amount-in-words-global#readme",
   "devDependencies": {
+    "@types/jest": "^29.5.2",
     "@typescript-eslint/eslint-plugin": "^5.61.0",
     "@typescript-eslint/parser": "^5.61.0",
     "eslint": "^8.44.0",
+    "eslint-config-prettier": "^8.8.0",
+    "jest": "^29.6.1",
+    "prettier": "^3.0.0",
+    "ts-jest": "^29.1.1",
     "typescript": "^5.1.6"
-  }
+  },
+  "files": [
+    "lib/**/*"
+  ]
 }
