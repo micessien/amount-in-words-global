@@ -1,8 +1,6 @@
 # amount-in-words-global
 Convert numeric amount in words with most global currency
 
-A very simple tool to convert amount in words.
-
 **Conversion Examples**  
 101 - One Hundred One Rupees  
 1010101010.01 - One Billion Ten Million One Hundred One Thousand Ten Dollars And One Cent
@@ -26,3 +24,5 @@ const atw = new AmountToWords();
 
 console.log(atw.toWords(123.45, CountryCodes.GH));
 ```
+
+NB: The original code and logic was come from this project (amount-in-words package)[https://www.npmjs.com/package/amount-in-words].
