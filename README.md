@@ -25,4 +25,4 @@ const atw = new AmountToWords();
 console.log(atw.toWords(123.45, CountryCodes.GH));
 ```
 
-NB: The original code and logic was come from this project (amount-in-words package)[https://www.npmjs.com/package/amount-in-words].
+NB: The original code and logic was come from this project [amount-in-words package](https://www.npmjs.com/package/amount-in-words).
