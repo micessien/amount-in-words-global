@@ -1,6 +1,6 @@
 {
   "name": "amount-in-words-global",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "Convert amount in words with most global currency",
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
