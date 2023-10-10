@@ -66,3 +66,18 @@ test('supports GH country code', () => {
     'Five Hundred Fifty Four Billion Two Hundred Seventy Two Million Five Hundred Sixty One Thousand Ten Cedis',
   );
 });
+
+// Ghana Numbering System
+test('supports CFA country code', () => {
+  expect(atw.toWords(1921000, CountryCodes.CFA)).toEqual('One Million Nine Hundred Twenty One Thousand FCFA');
+  expect(atw.toWords('001.55', CountryCodes.CFA)).toEqual('One FCFA And Fifty Five Franc');
+  expect(atw.toWords('0.01', CountryCodes.CFA)).toEqual('Zero FCFA And One Franc');
+  expect(atw.toWords('001.87', CountryCodes.CFA)).toEqual('One FCFA And Eighty Seven Franc');
+  expect(atw.toWords('100,000', CountryCodes.CFA)).toEqual('One Hundred Thousand FCFA');
+  expect(atw.toWords('632,362,999,101,001', CountryCodes.CFA)).toEqual(
+    'Six Hundred Thirty Two Trillion Three Hundred Sixty Two Billion Nine Hundred Ninety Nine Million One Hundred One Thousand One FCFA',
+  );
+  expect(atw.toWords(554272561010, CountryCodes.CFA)).toEqual(
+    'Five Hundred Fifty Four Billion Two Hundred Seventy Two Million Five Hundred Sixty One Thousand Ten FCFA',
+  );
+});

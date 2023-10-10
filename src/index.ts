@@ -5,6 +5,7 @@ export enum CountryCodes {
   GBR = 'GBR',
   NGR = 'NGR',
   GH = 'GH',
+  CFA = 'CFA',
 }
 
 export class AmountToWords {
@@ -45,6 +46,7 @@ export class AmountToWords {
     GBR: ['Pound', 'Pence', 'Pence', '£', 'usNumSys', 'Pounds'],
     NGR: ['Naira', 'Kobo', 'Kobo', '₦', 'usNumSys', 'Naira'],
     GH: ['Cedis', 'Pesewas', 'Pesewas', '₵', 'usNumSys', 'Cedis'],
+    CFA: ['FCFA', 'Franc', 'Franc', 'XOF', 'usNumSys', 'FCFA'],
   };
 
   public toWords = (amount: string | number, countryCode = 'IND') => {
