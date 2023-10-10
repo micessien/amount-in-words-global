@@ -13,7 +13,7 @@ npm install amount-in-words-global or yarn add amount-in-words-global
 
 #### Input Parameters
 **amount:** number or string (e.g. 11022.27, '$657,798.54')  
-**countryCode:** IND, GBR, USA, NGR, GH (more will be added in future)
+**countryCode:** IND, GBR, USA, NGR, GH, CFA (more will be added in future)
 
 #### Usage - Javascript
 ```javascript
