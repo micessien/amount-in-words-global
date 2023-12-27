@@ -58,6 +58,7 @@ test('supports GH country code', () => {
   expect(atw.toWords('001.55', CountryCodes.GH)).toEqual('One Cedis And Fifty Five Pesewas');
   expect(atw.toWords('0.01', CountryCodes.GH)).toEqual('Zero Cedis And One Pesewas');
   expect(atw.toWords('001.87', CountryCodes.GH)).toEqual('One Cedis And Eighty Seven Pesewas');
+  // expect(atw.toWords('4450', CountryCodes.GH)).toEqual('Four Thousand Four Hundred Fifty Cedis');
   expect(atw.toWords('100,000', CountryCodes.GH)).toEqual('One Hundred Thousand Cedis');
   expect(atw.toWords('632,362,999,101,001', CountryCodes.GH)).toEqual(
     'Six Hundred Thirty Two Trillion Three Hundred Sixty Two Billion Nine Hundred Ninety Nine Million One Hundred One Thousand One Cedis',
@@ -67,7 +68,7 @@ test('supports GH country code', () => {
   );
 });
 
-// Ghana Numbering System
+// CEDEAO Numbering System
 test('supports CFA country code', () => {
   expect(atw.toWords(1921000, CountryCodes.CFA)).toEqual('One Million Nine Hundred Twenty One Thousand FCFA');
   expect(atw.toWords('001.55', CountryCodes.CFA)).toEqual('One FCFA And Fifty Five Franc');
@@ -80,4 +81,14 @@ test('supports CFA country code', () => {
   expect(atw.toWords(554272561010, CountryCodes.CFA)).toEqual(
     'Five Hundred Fifty Four Billion Two Hundred Seventy Two Million Five Hundred Sixty One Thousand Ten FCFA',
   );
+});
+
+// EURO Numbering System
+test('supports EURO country code', () => {
+  expect(atw.toWords(1921000, CountryCodes.EURO)).toEqual('One Million Nine Hundred Twenty One Thousand Euros');
+  expect(atw.toWords(554272561010, CountryCodes.EURO)).toEqual(
+    'Five Hundred Fifty Four Billion Two Hundred Seventy Two Million Five Hundred Sixty One Thousand Ten Euros',
+  );
+  expect(atw.toWords('0.01', CountryCodes.EURO)).toEqual('Zero Euro And One Cent');
+  expect(atw.toWords('001.87', CountryCodes.EURO)).toEqual('One Euro And Eighty Seven Cents');
 });

@@ -6,6 +6,7 @@ export enum CountryCodes {
   NGR = 'NGR',
   GH = 'GH',
   CFA = 'CFA',
+  EURO = 'EURO',
 }
 
 export class AmountToWords {
@@ -43,6 +44,7 @@ export class AmountToWords {
   private curCodes: { [countryCode: string]: string[] } = {
     IND: ['Rupee', 'Paisa', 'Paise', '₹', 'inNumSys', 'Rupees'],
     USA: ['Dollar', 'Cent', 'Cents', '$', 'usNumSys', 'Dollars'],
+    EURO: ['Euro', 'Cent', 'Cents', '€', 'usNumSys', 'Euros'],
     GBR: ['Pound', 'Pence', 'Pence', '£', 'usNumSys', 'Pounds'],
     NGR: ['Naira', 'Kobo', 'Kobo', '₦', 'usNumSys', 'Naira'],
     GH: ['Cedis', 'Pesewas', 'Pesewas', '₵', 'usNumSys', 'Cedis'],
@@ -69,7 +71,7 @@ export class AmountToWords {
       decimalPart.length > 0
         ? `${valueInStr} And ${decimalPart} ${this.getCurrencyChange(countryCode, decimalStr)}`
         : valueInStr;
-    // console.log(valueInStr);
+    console.log('Value-----', valueInStr);
     return valueInStr;
   };
 
