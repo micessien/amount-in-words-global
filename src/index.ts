@@ -71,7 +71,7 @@ export class AmountToWords {
       decimalPart.length > 0
         ? `${valueInStr} And ${decimalPart} ${this.getCurrencyChange(countryCode, decimalStr)}`
         : valueInStr;
-    console.log('Value-----', valueInStr);
+    // Return
     return valueInStr;
   };
 
@@ -116,14 +116,18 @@ export class AmountToWords {
     const numStr = num.toString().split('');
     const finalStr = [];
     while (numStr.length > 0) {
+      // console.log('🚀 ~ numStr:', numStr);
       // console.log(numSys.length);
       for (let i = 0, l = numSys.length * 2 - 1; i < l; ++i) {
         // console.log(numStr, i, (i/2)+1);
         let strValue = '';
         let curNum = [];
         if (i === 0) {
+          // console.log('🚀 ~ before numStr:', numStr);
           curNum = numStr.splice(-2);
           strValue = this.getUnits(curNum, numSys, 0);
+          // if str is not empty add random value
+          if (strValue) curNum = ['9'];
         } else if (i % 2 === 1) {
           curNum = numStr.splice(-1);
           strValue = this.getUnits(curNum, numSys, 1);
@@ -136,6 +140,7 @@ export class AmountToWords {
       if (numStr.length > 0) finalStr.unshift(...numSys.slice(-1));
       else break;
     }
+    // return
     return finalStr.join('');
   };
 

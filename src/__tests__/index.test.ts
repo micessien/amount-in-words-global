@@ -2,6 +2,11 @@ import { AmountToWords, CountryCodes } from '../index';
 
 const atw = new AmountToWords();
 
+// Numbering System
+// test('supports Personal test country code', () => {
+//   expect(atw.toWords('4450', CountryCodes.GH)).toEqual('Four Thousand Four Hundred Fifty Cedis');
+// });
+
 // Indian Numbering System
 test('supports Indian country code', () => {
   expect(atw.toWords(123)).toEqual('One Hundred Twenty Three Rupees');
@@ -58,7 +63,9 @@ test('supports GH country code', () => {
   expect(atw.toWords('001.55', CountryCodes.GH)).toEqual('One Cedis And Fifty Five Pesewas');
   expect(atw.toWords('0.01', CountryCodes.GH)).toEqual('Zero Cedis And One Pesewas');
   expect(atw.toWords('001.87', CountryCodes.GH)).toEqual('One Cedis And Eighty Seven Pesewas');
-  // expect(atw.toWords('4450', CountryCodes.GH)).toEqual('Four Thousand Four Hundred Fifty Cedis');
+  expect(atw.toWords('4450', CountryCodes.GH)).toEqual('Four Thousand Four Hundred Fifty Cedis');
+  expect(atw.toWords('4455', CountryCodes.GH)).toEqual('Four Thousand Four Hundred Fifty Five Cedis');
+  expect(atw.toWords('4450.50', CountryCodes.GH)).toEqual('Four Thousand Four Hundred Fifty Cedis And Fifty Pesewas');
   expect(atw.toWords('100,000', CountryCodes.GH)).toEqual('One Hundred Thousand Cedis');
   expect(atw.toWords('632,362,999,101,001', CountryCodes.GH)).toEqual(
     'Six Hundred Thirty Two Trillion Three Hundred Sixty Two Billion Nine Hundred Ninety Nine Million One Hundred One Thousand One Cedis',
