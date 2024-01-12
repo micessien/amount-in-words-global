@@ -10,146 +10,211 @@ export enum CountryCodes {
 }
 
 export class AmountToWords {
-  private first = [
-    '',
-    'One ',
-    'Two ',
-    'Three ',
-    'Four ',
-    'Five ',
-    'Six ',
-    'Seven ',
-    'Eight ',
-    'Nine ',
-    'Ten ',
-    'Eleven ',
-    'Twelve ',
-    'Thirteen ',
-    'Fourteen ',
-    'Fifteen ',
-    'Sixteen ',
-    'Seventeen ',
-    'Eighteen ',
-    'Nineteen ',
+  private words1To19: string[] = [
+    'zero',
+    'one',
+    'two',
+    'three',
+    'four',
+    'five',
+    'six',
+    'seven',
+    'eight',
+    'nine',
+    'ten',
+    'eleven',
+    'twelve',
+    'thirteen',
+    'fourteen',
+    'fifteen',
+    'sixteen',
+    'seventeen',
+    'eighteen',
+    'nineteen',
   ];
-  private tens = ['', '', 'Twenty ', 'Thirty ', 'Forty ', 'Fifty ', 'Sixty ', 'Seventy ', 'Eighty ', 'Ninety '];
-  private numSys: { [currencyCode: string]: string[] } = {
-    usNumSys: ['', 'Hundred ', 'Thousand ', 'Million ', 'Billion ', 'Trillion '],
-    inNumSys: ['', 'Hundred ', 'Thousand ', 'Lakh ', 'Crore '],
-  };
+  private wordsTens: string[] = ['', '', 'twenty', 'thirty', 'forty', 'fifty', 'sixty', 'seventy', 'eighty', 'ninety'];
+  private wordsBig: string[] = [
+    '',
+    'thousand',
+    'million',
+    'billion',
+    'trillion',
+    'quadrillion',
+    'quintillion',
+    'sextillion',
+    'septillion',
+    'octillion',
+    'nonillion',
+    'decillion',
+  ];
 
   /**
    * Ifelere: Naira does not not have an 's' for plural therefore this map is adjusted to have currencies declare plural form
    */
   private curCodes: { [countryCode: string]: string[] } = {
-    IND: ['Rupee', 'Paisa', 'Paise', '₹', 'inNumSys', 'Rupees'],
-    USA: ['Dollar', 'Cent', 'Cents', '$', 'usNumSys', 'Dollars'],
-    EURO: ['Euro', 'Cent', 'Cents', '€', 'usNumSys', 'Euros'],
-    GBR: ['Pound', 'Pence', 'Pence', '£', 'usNumSys', 'Pounds'],
-    NGR: ['Naira', 'Kobo', 'Kobo', '₦', 'usNumSys', 'Naira'],
-    GH: ['Cedis', 'Pesewas', 'Pesewas', '₵', 'usNumSys', 'Cedis'],
-    CFA: ['FCFA', 'Franc', 'Franc', 'XOF', 'usNumSys', 'FCFA'],
+    IND: ['rupee', 'paisa', 'paise', '₹', 'HINDI', 'rupee(s)'],
+    USA: ['dollar', 'cent', 'cent(s)', '$', 'EN', 'dollar(s)'],
+    EURO: ['euro', 'cent', 'cent(s)', '€', 'EN', 'euro(s)'],
+    GBR: ['pound', 'pence', 'pence', '£', 'EN', 'pound(s)'],
+    NGR: ['naira', 'kobo', 'kobo', '₦', 'EN', 'naira'],
+    GH: ['cedis', 'pesewas', 'pesewas', '₵', 'EN', 'cedis'],
+    CFA: ['fcfa', 'franc', 'franc', 'XOF', 'EN', 'fcfa'],
   };
 
-  public toWords = (amount: string | number, countryCode = 'IND') => {
-    // console.log(num);
-    const numSys = this.numSys[this.getNumSys(countryCode)];
-    const nStr = amount.toString().split('.');
-    // Remove any other characters than numbers
-    const wholeStr = Number(nStr[0].replace(/[^a-z\d\s]+/gi, ''));
-    const decimalStr = nStr.length > 1 ? Number(nStr[1]) : 0;
-    const wholeStrPart =
-      this.getNumSys(countryCode) === 'inNumSys'
-        ? this.convert(wholeStr, numSys).trim()
-        : this.convertInUS(wholeStr, numSys).trim();
-    const decimalPart = this.convert(decimalStr, numSys).trim();
-    let valueInStr =
-      wholeStrPart.length > 0
-        ? `${wholeStrPart} ${this.getCurrencyWhole(countryCode, wholeStr)}`
-        : `Zero ${this.getCurrencyWhole(countryCode, wholeStr)}`;
-    valueInStr =
-      decimalPart.length > 0
-        ? `${valueInStr} And ${decimalPart} ${this.getCurrencyChange(countryCode, decimalStr)}`
-        : valueInStr;
-    // Return
-    return valueInStr;
-  };
+  public toWords = (amount: string | number, countryCode = 'GH') => {
+    let val: number;
+    const currencySys = this.curCodes[countryCode];
+    // Clean value if it is number or string
+    if (typeof amount === 'string') {
+      val = Number(amount.replace(/,/g, ''));
+    } else {
+      val = amount;
+    }
+    // console.log('Val-----', val);
 
-  private getCurrencyWhole = (countryCode = 'IND', amount = 0) => {
-    // Ifelere: If the amount is more than one use index 5 of curCodes map
-    const index = amount > 1 ? 5 : 0;
+    // Separate integer to decimal part
+    const integerPart = parseInt(val.toString()); // Extracts the integer part
+    const decimalPartMatch = val.toString().match(/\.\d*$/); // Extracts the decimal part
+    const decimalPartStartByZero = decimalPartMatch ? decimalPartMatch[0].substring(1).startsWith('0') : false; // Return true if decimal start by 0
+    const decimalPart = decimalPartMatch ? parseInt(decimalPartMatch[0].substring(1)) : 0; // Assign the decimal value
+    // console.log('🚀 ~ decimalPart:', decimalPart);
 
-    const cur = this.curCodes[countryCode] ? this.curCodes[countryCode][index] : this.curCodes['IND'][index];
+    if (integerPart === 0 && decimalPart === 0) {
+      return this.words1To19[0];
+    }
 
-    // if (amount > 1) return cur + "s";
-    // else return cur;
-    return cur;
-  };
-
-  private getCurrencyChange = (countryCode: string, amount = 0) => {
-    if (amount > 1) return this.curCodes[countryCode] ? this.curCodes[countryCode][2] : this.curCodes['IND'][2];
-    else return this.curCodes[countryCode] ? this.curCodes[countryCode][1] : this.curCodes['IND'][1];
-  };
-
-  private getCurrencySymbol = (countryCode: string) => {
-    return this.curCodes[countryCode] ? this.curCodes[countryCode][2] : this.curCodes['IND'][2];
+    let numWords: string = this.convertToWords(integerPart) + ` ${currencySys[5]}`;
+    numWords =
+      numWords +
+      (decimalPart !== 0
+        ? ' and ' + this.convertDecimalToWords(decimalPart, decimalPartStartByZero) + ` ${currencySys[2]}`
+        : '');
+    return numWords;
   };
 
   private getNumSys = (countryCode: string) => {
     return this.curCodes[countryCode] ? this.curCodes[countryCode][4] : this.curCodes['IND'][4];
   };
 
-  private convert = (num: number | string, numSys: string[]) => {
-    const numStr = num.toString().split('');
-    const finalStr = [];
-    while (numStr.length > 0) {
-      for (let i = 0; i < numSys.length - 1; ++i) {
-        if (i === 1) finalStr.unshift(this.getUnits(numStr.splice(-1), numSys, i));
-        else finalStr.unshift(this.getUnits(numStr.splice(-2), numSys, i));
-      }
-      if (numStr.length > 0) finalStr.unshift(...numSys.slice(-1));
-    }
-    return finalStr.join('');
-  };
-
-  private convertInUS = (num: number | string, numSys: string[]) => {
-    const numStr = num.toString().split('');
-    const finalStr = [];
-    while (numStr.length > 0) {
-      // console.log('🚀 ~ numStr:', numStr);
-      // console.log(numSys.length);
-      for (let i = 0, l = numSys.length * 2 - 1; i < l; ++i) {
-        // console.log(numStr, i, (i/2)+1);
-        let strValue = '';
-        let curNum = [];
-        if (i === 0) {
-          // console.log('🚀 ~ before numStr:', numStr);
-          curNum = numStr.splice(-2);
-          strValue = this.getUnits(curNum, numSys, 0);
-          // if str is not empty add random value
-          if (strValue) curNum = ['9'];
-        } else if (i % 2 === 1) {
-          curNum = numStr.splice(-1);
-          strValue = this.getUnits(curNum, numSys, 1);
-        } else {
-          curNum = numStr.splice(-2);
-          strValue = this.getUnits(curNum, numSys, i / 2 + 1);
+  // Function convertor number
+  private convertToWords = (n: number): string => {
+    let convertedWords;
+    if (n < 20) {
+      convertedWords = this.words1To19[n];
+    } else if (n < 100) {
+      convertedWords = this.wordsTens[Math.floor(n / 10)] + (n % 10 !== 0 ? ' ' + this.words1To19[n % 10] : '');
+    } else if (n < 1000) {
+      convertedWords =
+        this.words1To19[Math.floor(n / 100)] +
+        ' hundred' +
+        (n % 100 !== 0 ? ' and ' + this.convertToWords(n % 100) : '');
+    } else {
+      let words = '';
+      // const numLength = n.toString().length;
+      // console.log(`numLength----`, numLength);
+      for (let i = 0; n > 0; i++) {
+        const part = n % 1000;
+        const partLength = part.toString().length;
+        let localLengthHundred = false;
+        if (i === 0 && partLength <= 2) {
+          localLengthHundred = true;
         }
-        if (Number(curNum.join('')) !== 0 || numStr.length < 2) finalStr.unshift(strValue);
+        // console.log(`n---- ${i}`, n);
+        // console.log(`n % 1000---- ${i}`, part.toString().length);
+        // console.log(`n % 1000 val---- ${i}`, part);
+        if (part !== 0) {
+          words =
+            `${localLengthHundred ? 'and ' : ''}` +
+            this.convertToWords(part) +
+            (this.wordsBig[i] ? ' ' + this.wordsBig[i] : ' ') +
+            ' ' +
+            words;
+        }
+        n = Math.floor(n / 1000);
       }
-      if (numStr.length > 0) finalStr.unshift(...numSys.slice(-1));
-      else break;
+      convertedWords = words.trim();
     }
-    // return
-    return finalStr.join('');
+
+    return convertedWords;
   };
 
-  private getUnits = (lastTwo: string[], numSys: string[], place?: number): string => {
-    if (!lastTwo || lastTwo.length === 0) return '';
-    let numInStr = '';
-    if (this.first[Number(lastTwo.join(''))]) numInStr = this.first[Number(lastTwo.join(''))];
-    else numInStr = `${this.tens[Number(lastTwo.shift())]}${this.getUnits(lastTwo.slice(-1), numSys)}`;
-    if ((numInStr && place) || (place && place >= 2)) numInStr = `${numInStr}${numSys[place] ?? ''}`;
-    return numInStr;
+  // Function convertor decimal
+  private convertDecimalToWords = (n: number, decimalPartStartByZero = false): string => {
+    let convertedWords;
+    const numberLength = n.toString().length;
+    // console.log('🚀~ numberLength:', numberLength);
+    // Check if length is one
+    if (numberLength === 1 && !decimalPartStartByZero) {
+      switch (n) {
+        case 1:
+          convertedWords = this.words1To19[10];
+          break;
+        case 2:
+          convertedWords = this.wordsTens[2];
+          break;
+        case 3:
+          convertedWords = this.wordsTens[3];
+          break;
+        case 4:
+          convertedWords = this.wordsTens[4];
+          break;
+        case 5:
+          convertedWords = this.wordsTens[5];
+          break;
+        case 6:
+          convertedWords = this.wordsTens[6];
+          break;
+        case 7:
+          convertedWords = this.wordsTens[7];
+          break;
+        case 8:
+          convertedWords = this.wordsTens[8];
+          break;
+        case 9:
+          convertedWords = this.wordsTens[9];
+          break;
+        default:
+          convertedWords = this.words1To19[0];
+          break;
+      }
+    } else {
+      if (n < 20) {
+        convertedWords = this.words1To19[n];
+      } else if (n < 100) {
+        convertedWords = this.wordsTens[Math.floor(n / 10)] + (n % 10 !== 0 ? ' ' + this.words1To19[n % 10] : '');
+      } else if (n < 1000) {
+        convertedWords =
+          this.words1To19[Math.floor(n / 100)] +
+          ' hundred' +
+          (n % 100 !== 0 ? ' and ' + this.convertToWords(n % 100) : '');
+      } else {
+        let words = '';
+        // const numLength = n.toString().length;
+        // console.log(`numLength----`, numLength);
+        for (let i = 0; n > 0; i++) {
+          const part = n % 1000;
+          const partLength = part.toString().length;
+          let localLengthHundred = false;
+          if (i === 0 && partLength <= 2) {
+            localLengthHundred = true;
+          }
+          // console.log(`n---- ${i}`, n);
+          // console.log(`n % 1000---- ${i}`, part.toString().length);
+          // console.log(`n % 1000 val---- ${i}`, part);
+          if (part !== 0) {
+            words =
+              `${localLengthHundred ? 'and ' : ''}` +
+              this.convertToWords(part) +
+              (this.wordsBig[i] ? ' ' + this.wordsBig[i] : ' ') +
+              ' ' +
+              words;
+          }
+          n = Math.floor(n / 1000);
+        }
+        convertedWords = words.trim();
+      }
+    }
+
+    return convertedWords;
   };
 }
