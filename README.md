@@ -8,8 +8,9 @@ npm install amount-in-words-global or yarn add amount-in-words-global
 ```
 
 **Conversion Examples**  
-101 - One Hundred One Rupees  
-1010101010.01 - One Billion Ten Million One Hundred One Thousand Ten Dollars And One Cent
+101.2 - one hundred and one cedis and twenty pesewas  
+101 - one hundred and one rupee(s)  
+1010101010.01 - one billion ten million one hundred and one thousand and ten dollar(s) and one cent(s)
 
 #### Input Parameters
 **amount:** number or string (e.g. 11022.27, '$657,798.54')  
@@ -20,7 +21,7 @@ npm install amount-in-words-global or yarn add amount-in-words-global
 const atwp = require('amount-in-words-global');
 const atw = new atwp.AmountToWords();
 ...
-console.log(atw.toWords(111.11, atwp.CountryCodes.USA));
+console.log(atw.toWords(111.11, atwp.CountryCodes.USA)); // Response: one hundred and eleven dollar(s) and eleven cent(s)
 ```
 
 #### Usage - Typescript
@@ -28,7 +29,7 @@ console.log(atw.toWords(111.11, atwp.CountryCodes.USA));
 import { AmountToWords, CountryCodes } from "amount-in-words-global";
 const atw = new AmountToWords();
 ...
-console.log(atw.toWords(123.45, CountryCodes.GH));
+console.log(atw.toWords(123.45)); // Response: one hundred and twenty three cedis and forty five pesewas
 ```
 
 ---
